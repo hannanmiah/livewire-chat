@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .sidebar-enter {
+        @apply transition-transform transform origin-top-left duration-300 ease-in;
+    }
+
+    .sidebar-enter-start {
+        @apply scale-x-0;
+    }
+
+    .sidebar-enter-end {
+        @apply scale-x-100;
+    }
+
+    .sidebar-leave {
+        @apply transition-transform origin-top-left transform duration-300 ease-out;
+    }
+
+    .sidebar-leave-start {
+        @apply scale-x-100;
+    }
+
+    .sidebar-leave-end {
+        @apply scale-x-0;
+    }
+}
