@@ -1,4 +1,5 @@
-<div class="flex flex-col space-y-2 bg-white h-screen" x-on:chat-created="toggleCreateChat">
+<div class="flex flex-col space-y-2 bg-white h-screen" x-on:chat-created="toggleCreateChat"
+     x-on:form-updated.window="createChatOpen = true">
     <div class="bg-primary flex pt-16 pb-2 px-4 space-x-4 items-center">
         <button class="btn btn-sm btn-circle glass group" @click="toggleCreateChat">
             <x-heroicon-o-arrow-left class="w-4 h-4 text-white group-hover:text-black"/>

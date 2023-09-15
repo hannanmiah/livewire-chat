@@ -1,5 +1,4 @@
-<aside class="col-span-2 h-screen border-r border-gray-300 grid grid-rows-10"
-       x-data="{ menuOpen: false }" x-on:chat-created.window="toggleChat">
+<div class="h-full grid grid-rows-10" x-data="{ menuOpen: false }">
     <div class="row-span-1 bg-gray-200 p-4 text-black inline-flex justify-between items-center">
         <div class="avatar">
             <div class="h-10 w-10 rounded-full ring ring-primary">
@@ -71,9 +70,9 @@
             @endforelse
         </ul>
     </div>
-
-    <template x-teleport="body">
-        <div class="fixed top-0 left-0 w-96 h-screen bg-white flex flex-col space-y-2" x-show="chatOpen"
+    <div class="" wire:ignore>
+        @teleport('body')
+        <div class="fixed top-0 left-0 w-1/3 h-screen bg-white flex flex-col space-y-2" x-show="chatOpen"
              x-transition:enter="sidebar-enter" x-transition:leave="sidebar-leave"
              x-transition:enter-start="sidebar-enter-start" x-transition:enter-end="sidebar-enter-end"
              x-transition:leave-end="sidebar-leave-end" x-transition:leave-start="sidebar-leave-start">
@@ -89,22 +88,22 @@
                 </button>
                 <input type="text" class="input input-sm w-full" placeholder="Search"/>
             </div>
-            <form class="flex flex-col space-y-4 flex-grow overflow-scroll">
+            <form class="flex flex-col space-y-4 flex-grow overflow-scroll" wire:submit="submit">
                 <div class="flex flex-col">
                     <div class="flex">
-                        <input type="radio" value="private" wire:model="type" name="type" id="private"
+                        <input type="radio" value="private" wire:model.live="type" name="type" id="private_type"
                                class="hidden peer"/>
 
-                        <label for="private"
+                        <label for="private_type"
                                class="flex items-center space-x-4 p-4 hover:bg-gray-200 border-b w-full peer-checked:bg-gray-300">
                             <x-heroicon-o-users class="w-10 h-10"/>
                             <span>New Private</span>
                         </label>
                     </div>
                     <div class="flex">
-                        <input type="radio" value="group" name="type" wire:model="type" id="group"
+                        <input type="radio" value="group" name="type" wire:model.live="type" id="group_type"
                                class="hidden peer"/>
-                        <label for="group"
+                        <label for="group_type"
                                class="flex items-center space-x-4 p-4 hover:bg-gray-200 w-full peer-checked:bg-gray-300">
                             <x-heroicon-o-user-group class="w-10 h-10"/>
                             <span>New Group</span>
@@ -116,7 +115,7 @@
                     <ul class="flex flex-col">
                         @forelse($this->contacts as $contact)
                             <li class="flex items-center" wire:key="{{$contact->uuid}}">
-                                <input type="checkbox" name="contacts" wire:model="selectedContacts"
+                                <input type="checkbox" name="contacts" wire:model.live="selectedContacts"
                                        value="{{$contact->id}}" id="{{$contact->uuid}}"
                                        class="hidden peer">
                                 <label for="{{$contact->uuid}}"
@@ -137,21 +136,25 @@
                         @endforelse
                     </ul>
                 </div>
-                <button type="button" class="absolute bottom-2 left-[50%] btn btn-circle btn-primary"
-                        @click="() => { toggleCreateChat(); $dispatch('form-updated', {type: $wire.type, selectedContacts: $wire.selectedContacts}) }"
+                <button type="submit" class="absolute bottom-2 left-[50%] btn btn-circle btn-primary"
                         x-show="$wire.selectedContacts.length > 0 && $wire.type">
                     <x-heroicon-o-arrow-right class="w-6 h-6"/>
                 </button>
             </form>
         </div>
-    </template>
 
-    <template x-teleport="body">
-        <div class="fixed top-0 left-0 w-96 h-screen flex flex-col space-y-2" x-show="createChatOpen"
+        @endteleport
+    </div>
+    <div class="" wire:ignore>
+        @teleport('body')
+
+        <div class="fixed z-10 top-0 left-0 h-screen w-1/3 flex flex-col space-y-2" x-show="createChatOpen"
+             x-on:chat-created.window="console.log('chat created!')"
              x-transition:enter="sidebar-enter" x-transition:leave="sidebar-leave"
              x-transition:enter-start="sidebar-enter-start" x-transition:enter-end="sidebar-enter-end"
              x-transition:leave-end="sidebar-leave-end" x-transition:leave-start="sidebar-leave-start">
-            <livewire:components.create-chat :key="$this->chats->pluck('uuid')->join('-')"/>
+            <livewire:components.create-chat/>
         </div>
-    </template>
-</aside>
+        @endteleport
+    </div>
+</div>

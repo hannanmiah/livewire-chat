@@ -53,7 +53,6 @@ class CreateChat extends Component
             if ($chat) {
                 $this->dispatch('chat-created');
                 $this->reset(['type', 'selectedContacts', 'name']);
-                $this->redirect(route('chats.view', $chat->uuid), navigate: true);
                 return;
             }
         }
@@ -84,7 +83,6 @@ class CreateChat extends Component
 
         $this->reset(['type', 'selectedContacts', 'name']);
         $this->dispatch('chat-created');
-        $this->redirect(route('chats.view', $chat->uuid), navigate: true);
     }
 
     public function render()

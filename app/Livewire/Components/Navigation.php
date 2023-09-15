@@ -14,12 +14,6 @@ class Navigation extends Component
 
     public string $type;
 
-    #[On('message-created')]
-    public function init()
-    {
-        unset($this->chats);
-    }
-
     #[Computed]
     public function contacts()
     {
@@ -43,6 +37,13 @@ class Navigation extends Component
     public function clearForm()
     {
         $this->reset(['type', 'selectedContacts']);
+        $this->init();
+    }
+
+    #[On('message-created')]
+    public function init()
+    {
+        unset($this->chats);
     }
 
     public function submit()

@@ -4,7 +4,8 @@
             <x-heroicon-o-plus-circle class="h-8 w-8"/>
         </button>
         <input wire:model="body" type="text" class="input w-full" placeholder="Type a message"
-               wire:keydown.enter="submit"/>
+               wire:keydown.enter="submit" x-init="$el.focus()" @input="$store.auth.startTyping()"
+               @blur="$store.auth.stopTyping()"/>
         <button wire:target="submit" type="submit" class="btn btn-circle" wire:loading.attr="disabled">
             <x-heroicon-o-paper-airplane class="h-8 w-8"/>
         </button>

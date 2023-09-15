@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Components;
 
+use App\Events\ChatUpdated;
 use App\Models\Chat;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -17,7 +18,7 @@ class Footer extends Component
     {
         $this->validate();
 
-        $this->chat->messages()->create([
+        $message = $this->chat->messages()->create([
             'user_id' => auth()->id(),
             'body' => $this->body,
             'type' => 1,
@@ -25,7 +26,9 @@ class Footer extends Component
 
         $this->reset('body');
 
-        $this->dispatch('message-created');
+        broadcast(new ChatUpdated($this->chat))->toOthers();
+
+        $this->dispatch('message-created', id: $message->uuid);
     }
 
     public function render()

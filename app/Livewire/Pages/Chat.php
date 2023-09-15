@@ -14,6 +14,7 @@ class Chat extends Component
     public function refresh()
     {
         $this->chat->refresh();
+        $this->dispatch('chat-refreshed');
     }
 
     public function render()

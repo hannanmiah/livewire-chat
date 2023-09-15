@@ -10,11 +10,8 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased grid grid-cols-8" x-data="app">
-<livewire:components.navigation key="navigation"/>
-
+<body class="font-sans antialiased" x-data="app">
 {{ $slot }}
-
 
 <script>
     document.addEventListener('alpine:init', () => {
@@ -31,7 +28,9 @@
         }));
     });
 </script>
+
 @livewireScripts
+@stack('scripts')
 </body>
 </html>
 
