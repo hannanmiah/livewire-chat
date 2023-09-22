@@ -42,4 +42,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Message::class);
     }
+
+    public function receivesBroadcastNotificationsOn(): string
+    {
+        return 'users.' . $this->uuid;
+    }
 }

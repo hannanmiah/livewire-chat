@@ -2,35 +2,31 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ config('app.name', 'Chat') }}</title>
-    @livewireStyles
-    <!-- Scripts -->
+    <title>{{ $title ?? 'Livewire chat' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased" x-data="app">
+<body x-data="app">
 {{ $slot }}
 
 <script>
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('app', () => ({
-            chatOpen: false,
-            createChatOpen: false,
+    window.addEventListener('alpine:init', () => {
+        Alpine.data('app', () => {
+            return {
+                createChatOpen: false,
+                chatOpen: false,
 
-            toggleChat() {
-                this.chatOpen = !this.chatOpen;
-            },
-            toggleCreateChat() {
-                this.createChatOpen = !this.createChatOpen;
+                toggleCreateChat() {
+                    this.createChatOpen = !this.createChatOpen
+                },
+                toggleChat() {
+                    this.chatOpen = !this.chatOpen
+                }
             }
-        }));
-    });
+        })
+    })
 </script>
-
-@livewireScripts
 @stack('scripts')
 </body>
 </html>
-

@@ -4,6 +4,8 @@ namespace App\Livewire\Components;
 
 use App\Events\ChatUpdated;
 use App\Models\Chat;
+use App\Notifications\UserNotification;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
@@ -26,9 +28,11 @@ class Footer extends Component
 
         $this->reset('body');
 
+        Notification::send($this->chat->chat_users->pluck('user'), new UserNotification($message));
+
         broadcast(new ChatUpdated($this->chat))->toOthers();
 
-        $this->dispatch('message-created', id: $message->uuid);
+        $this->dispatch('message-created', uuid: $message->uuid);
     }
 
     public function render()

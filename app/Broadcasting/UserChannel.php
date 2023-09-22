@@ -2,10 +2,9 @@
 
 namespace App\Broadcasting;
 
-use App\Models\Message;
 use App\Models\User;
 
-class MessageChannel
+class UserChannel
 {
     /**
      * Create a new channel instance.
@@ -18,9 +17,8 @@ class MessageChannel
     /**
      * Authenticate the user's access to the channel.
      */
-    public function join(User $user, Message $message): array|bool
+    public function join(User $user, User $user_passed): array|bool
     {
-        $message->load('chat.chat_users.user');
-        return $message->chat->chat_users->contains('user_id', $user->id);
+        return $user->id === $user_passed->id;
     }
 }

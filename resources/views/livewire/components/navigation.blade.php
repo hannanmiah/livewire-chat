@@ -147,7 +147,6 @@
     </div>
     <div class="" wire:ignore>
         @teleport('body')
-
         <div class="fixed z-10 top-0 left-0 h-screen w-1/3 flex flex-col space-y-2" x-show="createChatOpen"
              x-on:chat-created.window="console.log('chat created!')"
              x-transition:enter="sidebar-enter" x-transition:leave="sidebar-leave"

@@ -2,6 +2,7 @@
 
 use App\Broadcasting\ChatChannel;
 use App\Broadcasting\MessageChannel;
+use App\Broadcasting\UserChannel;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -21,3 +22,4 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 
 Broadcast::channel('messages.{message}', MessageChannel::class);
 Broadcast::channel('chats.{chat}', ChatChannel::class);
+Broadcast::channel('users.{user_passed}', UserChannel::class);
