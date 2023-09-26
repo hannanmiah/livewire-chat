@@ -2,8 +2,11 @@
 
 namespace App\Livewire\Components;
 
+use App\Events\ChatUpdated;
 use App\Models\Chat;
 use App\Models\User;
+use App\Notifications\UserNotification;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -48,41 +51,43 @@ class CreateChat extends Component
                 $q->where('user_id', auth()->id());
             })->whereHas('chat_users', function ($q) {
                 $q->whereIn('user_id', $this->selectedContacts);
-            })->where('type', 'private')->first();
-
-            if ($chat) {
-                $this->dispatch('chat-created');
-                $this->reset(['type', 'selectedContacts', 'name']);
-                return;
-            }
+            })->where('type', 'private')->firstOrCreate([
+                'type' => 'private',
+            ]);
+        } else {
+            $chat = Chat::query()->create([
+                'name' => $this->name,
+                'type' => $this->type,
+            ]);
         }
 
-        $chat = Chat::query()->create([
-            'name' => $this->name,
-            'type' => $this->type,
-        ]);
-
-        $chat->chat_users()->createMany([
-            [
-                'user_id' => auth()->id(),
-                'status' => 'active',
-                'role' => 'admin',
-            ],
-            ...collect($this->selectedContacts)->map(function ($contact) {
-                return [
-                    'user_id' => $contact,
+        if (filled($chat)) {
+            $chat->chat_users()->createMany([
+                [
+                    'user_id' => auth()->id(),
                     'status' => 'active',
-                ];
-            })->toArray(),
-        ]);
+                    'role' => 'admin',
+                ],
+                ...collect($this->selectedContacts)->map(function ($contact) {
+                    return [
+                        'user_id' => $contact,
+                        'status' => 'active',
+                    ];
+                })->toArray(),
+            ]);
 
-        $chat->messages()->create([
-            'user_id' => auth()->id(),
-            'body' => 'Started this conversation...',
-        ]);
+            $message = $chat->messages()->create([
+                'user_id' => auth()->id(),
+                'body' => 'Started this conversation...',
+            ]);
 
-        $this->reset(['type', 'selectedContacts', 'name']);
-        $this->dispatch('chat-created');
+            ChatUpdated::broadcast($chat)->toOthers();
+            Notification::send($chat->chat_users->pluck('user'), new UserNotification($message));
+
+            $this->dispatch('chat-created');
+            $this->reset(['type', 'selectedContacts', 'name']);
+            $this->redirect(route('chats.view', ['chat' => $chat]), navigate: true);
+        }
     }
 
     public function render()

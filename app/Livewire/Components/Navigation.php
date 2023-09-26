@@ -4,6 +4,7 @@ namespace App\Livewire\Components;
 
 use App\Models\Chat;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -44,6 +45,12 @@ class Navigation extends Component
     public function init()
     {
         unset($this->chats);
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login');
     }
 
     public function submit()

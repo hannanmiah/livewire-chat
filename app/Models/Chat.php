@@ -18,7 +18,7 @@ class Chat extends Model
     {
         return Attribute::make(function ($val) {
             if ($this->type === 'private') {
-                return $this->chat_users()->where('user_id', '!=', auth()->id())->first()->user->name;
+                return $this->chat_users()->where('user_id', '!=', auth()->id())->first()?->user->name;
             }
 
             return $val;
@@ -34,7 +34,7 @@ class Chat extends Model
     {
         return Attribute::make(function ($value) {
             if ($this->type === 'private') {
-                return $this->chat_users()->where('user_id', '!=', auth()->id())->first()->user->avatar_url;
+                return $this->chat_users()->where('user_id', '!=', auth()->id())->first()?->user?->avatar_url;
             }
 
             return $value;

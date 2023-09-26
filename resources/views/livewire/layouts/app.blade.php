@@ -16,13 +16,17 @@
             return {
                 createChatOpen: false,
                 chatOpen: false,
+                menuOpen: false,
 
                 toggleCreateChat() {
                     this.createChatOpen = !this.createChatOpen
                 },
                 toggleChat() {
                     this.chatOpen = !this.chatOpen
-                }
+                },
+                toggleMenu() {
+                    this.menuOpen = !this.menuOpen
+                },
             }
         })
     })

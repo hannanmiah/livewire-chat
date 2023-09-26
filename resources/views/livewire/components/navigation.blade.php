@@ -1,4 +1,4 @@
-<div class="h-full grid grid-rows-10" x-data="{ menuOpen: false }">
+<div class="h-full grid grid-rows-10">
     <div class="row-span-1 bg-gray-200 p-4 text-black inline-flex justify-between items-center">
         <div class="avatar">
             <div class="h-10 w-10 rounded-full ring ring-primary">
@@ -18,7 +18,7 @@
                 </button>
             </li>
             <li class="group relative" @click.outside="menuOpen = false">
-                <button class="btn btn-sm btn-circle glass group-hover:bg-gray-300" @click="menuOpen = !menuOpen">
+                <button class="btn btn-sm btn-circle glass group-hover:bg-gray-300" @click="toggleMenu">
                     <x-heroicon-o-ellipsis-vertical class="w-6 h-6"/>
                 </button>
                 <ul class="absolute top-8 right-0 bg-white border w-40 flex flex-col rounded-md" x-show="menuOpen">
@@ -29,10 +29,10 @@
                         </a>
                     </li>
                     <li class="border-b">
-                        <a href="#" class="flex items-center space-x-2 p-2 hover:bg-gray-200">
+                        <button wire:click="logout" class="w-full flex items-center space-x-2 p-2 hover:bg-gray-200">
                             <x-heroicon-o-power class="w-4 h-4"/>
                             <span>Logout</span>
-                        </a>
+                        </button>
                     </li>
                 </ul>
             </li>
