@@ -5,6 +5,10 @@
     <aside class="hidden md:block col-span-4 h-screen border-r border-gray-300">
         <livewire:components.navigation :key="$chat->messages->pluck('uuid')->join('-')"/>
     </aside>
+    <aside class="fixed z-10 top-0 left-0 h-screen w-full sm:w-2/3 flex flex-col space-y-2" x-show="navigationOpen"
+           @click.outside="navigationOpen = false">
+        <livewire:components.navigation :key="$chat->messages->count()"/>
+    </aside>
     <main class="col-span-12 md:col-span-8 h-screen grid grid-rows-10 overflow-hidden">
         <livewire:components.header :chat="$chat"/>
         <div class="bg-slate-300 row-span-8 p-2 overflow-y-scroll" id="msg-view">
@@ -162,6 +166,5 @@
                 },
             }
         }
-
     </script>
 @endpush

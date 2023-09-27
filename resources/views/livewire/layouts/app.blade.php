@@ -17,6 +17,7 @@
                 createChatOpen: false,
                 chatOpen: false,
                 menuOpen: false,
+                navigationOpen: false,
 
                 toggleCreateChat() {
                     this.createChatOpen = !this.createChatOpen
@@ -26,6 +27,9 @@
                 },
                 toggleMenu() {
                     this.menuOpen = !this.menuOpen
+                },
+                toggleNavigation() {
+                    this.navigationOpen = !this.navigationOpen
                 },
             }
         })

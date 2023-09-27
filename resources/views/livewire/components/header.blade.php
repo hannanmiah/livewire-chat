@@ -1,4 +1,7 @@
 <header class="row-span-1 bg-gray-200 p-4 text-black flex space-x-2 md:space-x-4 items-center">
+    <button class="btn btn-sm glass md:hidden" @click="toggleNavigation">
+        <x-heroicon-o-bars-3 class="w-6 h-6"/>
+    </button>
     <div class="avatar">
         <div class="h-10 w-10 rounded-full ring ring-primary">
             <img src="{{$chat->image}}" alt="{{$chat->name}}"/>

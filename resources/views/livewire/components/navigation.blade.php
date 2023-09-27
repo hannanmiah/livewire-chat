@@ -38,7 +38,7 @@
             </li>
         </ul>
     </div>
-    <div class="row-span-9 flex flex-col">
+    <div class="row-span-9 flex flex-col relative">
         <ul class="flex flex-col py-2 bg-white h-full overflow-scroll">
             @forelse($this->chats as $chat)
                 <li class="mx-1 border-b" wire:key="{{$chat->uuid}}">
@@ -69,6 +69,13 @@
                 </li>
             @endforelse
         </ul>
+        <template x-if="navigationOpen">
+            <div class="absolute bottom-2 left-[45%]">
+                <button class="btn btn-circle bg-black" @click="navigationOpen = false">
+                    <x-heroicon-o-x-mark class="w-6 h-6"/>
+                </button>
+            </div>
+        </template>
     </div>
     <div class="" wire:ignore>
         @teleport('body')
@@ -142,7 +149,6 @@
                 </button>
             </form>
         </div>
-
         @endteleport
     </div>
     <div class="" wire:ignore>
